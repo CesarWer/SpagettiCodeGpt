@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listado de Alimentos</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center">Listado de Alimentos</h1>
+        <div class="mb-3">
+            <label for="usuarioID">Ingrese el ID de Usuario:</label>
+            <input type="text" id="usuarioID" class="form-control" placeholder="Ejemplo: user168">
+            <button class="btn btn-primary mt-2" id="buscarBtn">Buscar</button>
+        </div>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Tipo</th>
+                    <th>Momentos</th>
+                    <th>Cantidad Actual</th>
+                    <th>Cantidad Mínima</th>
+                    <th>Precio Unitario</th>
+                </tr>
+            </thead>
+            <tbody id="alimentoTableBody">
+                <!-- Los datos de alimentos se insertarán aquí -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        document.getElementById('buscarBtn').addEventListener('click', function() {
+            const usuarioID = document.getElementById('usuarioID').value;
+            fetch(`/alimentos/${usuarioID}`)
+                .then(response => response.json())
+                .then(data => {
+                    const tableBody = document.getElementById('alimentoTableBody');
+                    tableBody.innerHTML = ''; // Limpiar tabla anterior
+                    data.forEach(alimento => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${alimento.nombre}</td>
+                            <td>${alimento.tipo}</td>
+                            <td>${alimento.momentos}</td>
+                            <td>${alimento.cantidadActual}</td>
+                            <td>${alimento.cantidadMinima}</td>
+                            <td>${alimento.precioUnitario}</td>
+                        `;
+                        tableBody.appendChild(row);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error al obtener los alimentos:', error);
+                });
+        });
+    </script>
+</body>
+</html>

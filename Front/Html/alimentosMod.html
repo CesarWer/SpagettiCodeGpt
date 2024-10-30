@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SuperCook - Inicio</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .navbar-custom {
+            background-color: #28a745; /* Color verde */
+        }
+        .navbar-brand {
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+        .navbar-nav {
+            display: flex;
+            flex-direction: column;
+            margin: 0 auto; /* Centrar menú */
+        }
+        .nav-item {
+            margin: 5px 0;
+        }
+        .nav-link {
+            background-color: #28a745;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 1rem;
+            width: 100px;
+            border-radius: 5px;
+        }
+        .nav-link:hover {
+            background-color: #218838;
+            color: white;
+        }
+        .btn-login {
+            background-color: #fff;
+            color: #28a745;
+            border: 2px solid #28a745;
+            border-radius: 5px;
+            padding: 5px 15px;
+            font-weight: bold;
+        }
+        .btn-login:hover {
+            background-color: #218838;
+            color: white;
+        }
+        .user-email {
+            color: white;
+            font-weight: bold;
+        }
+        .main-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light navbar-custom">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="index.html">SuperCook</a>
+            <div class="collapse navbar-collapse">
+                <!-- Menú centrado -->
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="alimentos.html">Alimentos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="recetas.html">Recetas</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="compras.html">Compras</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- Botón o correo del usuario -->
+            <div id="user-auth" class="ms-auto">
+                <!-- Aquí se mostrará el botón o el correo del usuario -->
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contenido principal -->
+    <div class="main-container">
+        <h2>Modificar Alimento</h2>
+        <form id="formModificarAlimento">
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre"><br>
+    
+            <label for="tipo">Tipo:</label>
+            <input type="text" id="tipo" name="tipo"><br>
+    
+            <label for="momentos">Momentos:</label>
+            <input type="text" id="momentos" name="momentos"><br>
+    
+            <label for="cantidadActual">Cantidad Actual:</label>
+            <input type="number" id="cantidadActual" name="cantidadActual"><br>
+    
+            <label for="cantidadMinima">Cantidad Mínima:</label>
+            <input type="number" id="cantidadMinima" name="cantidadMinima"><br>
+    
+            <label for="precioUnitario">Precio Unitario:</label>
+            <input type="number" id="precioUnitario" name="precioUnitario" step="0.01"><br>
+    
+            <button type="button" onclick="modificarAlimento()">Guardar Cambios</button>
+        </form>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="request.js"></script>
+    <script src="alimentosMod.html"></script>
+
+    <script>
+        // Función para cargar el estado de autenticación
+        function loadAuthState() {
+            const userAuthDiv = document.getElementById('user-auth');
+            
+            // Verificar si hay un token almacenado (simulación)
+            const token = localStorage.getItem('authToken'); // O sessionStorage
+            
+            if (token) {
+                // Si el usuario está autenticado, podrías hacer una llamada al backend para obtener su información
+                // Simularemos que tenemos un correo almacenado
+                const userEmail = localStorage.getItem('userEmail') || 'usuario@example.com';
+                
+                // Mostrar correo del usuario
+                userAuthDiv.innerHTML = `
+                    <span class="user-email">${userEmail}</span>
+                    <button onclick="logout()" class="btn btn-danger ms-3">Salir</button>
+                `;
+            } else {
+                // Mostrar el botón de "Ingresar"
+                userAuthDiv.innerHTML = `
+                    <a href="login.html" class="btn btn-login">Ingresar</a>
+                `;
+            }
+        }
+
+        // Función para simular el logout
+        function logout() {
+            // Eliminar el token del almacenamiento local
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('userEmail');
+            // Recargar la página para reflejar el cambio
+            window.location.reload();
+        }
+
+        // Cargar el estado de autenticación al cargar la página
+        document.addEventListener('DOMContentLoaded', loadAuthState);
+    </script>
+</body>
+</html>
